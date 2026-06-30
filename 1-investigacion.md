@@ -1,0 +1,13 @@
+
+| Algoritmo | Descripción Básica | Utilidad en Videojuegos |
+| --- | --- | --- |
+| **1. A* (A-Star)** | Combina el costo real recorrido con una estimación (heurística) hacia la meta. | Estándar de la industria. Usado en RTS, MOBAs y RPGs para un movimiento preciso y eficiente al hacer clic. |
+| **2. Dijkstra** | Explora en todas las direcciones calculando el costo real hacia cada nodo posible, sin usar heurísticas. | Ideal cuando se busca el punto de interés más cercano (ej. un botiquín o zona de cobertura) en lugar de un destino único. |
+| **3. Búsqueda en Anchura (BFS)** | Se expande en forma de anillos concéntricos, asumiendo que todos los movimientos tienen el mismo costo. | Excelente para mapas de cuadrícula, como en juegos de rol tácticos por turnos, para mostrar el área de movimiento posible. |
+| **4. Búsqueda en Profundidad (DFS)** | Avanza lo más lejos posible por una ruta y retrocede si encuentra un callejón sin salida. | No se usa para mover personajes. Su fuerte es la generación procedimental y la verificación de laberintos. |
+| **5. D* y LPA*** | Variantes avanzadas de A* que almacenan cálculos previos para adaptarse a cambios sin reiniciar. | Indispensables en entornos dinámicos y destructibles donde los obstáculos cambian repentinamente en medio del camino. |
+| **6. Puntos de Salto (JPS)** | Optimización matemática de A* que se salta nodos vacíos y busca directamente cambios de dirección forzados. | Fundamental en simuladores y RTS a gran escala para mover miles de unidades simultáneamente sin saturar la CPU. |
+| **7. Voraz el Mejor Primero** | Ignora el costo recorrido y se guía exclusivamente por la estimación visual hacia el objetivo. | Perfecto para hordas de enemigos "tontos" y agresivos (como zombis) que persiguen al jugador sin buscar la ruta perfecta. |
+| **8. Theta*** | Permite el cálculo de trayectorias en línea recta entre dos puntos si no hay obstáculos en medio. | Usado en juegos modernos 3D y mundos abiertos para evitar movimientos robóticos en zigzag sobre cuadrículas invisibles. |
+| **9. Jerárquico A* (HPA*)** | Divide un mapa gigante en áreas más pequeñas y calcula rutas abstractas de un área a otra antes del detalle. | Crucial en juegos de mundo abierto (MMORPGs) para que la IA planee viajes largos sin consumir enormes cantidades de memoria. |
+| **10. Campos de Flujo** | Asigna un vector direccional a cada celda del mapa, guiando el movimiento como si fuera una corriente. | La solución definitiva para juegos con enjambres masivos, permitiendo a cientos de unidades navegar sin calcular cientos de rutas. |

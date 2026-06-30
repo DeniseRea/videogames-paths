@@ -1,0 +1,467 @@
+\documentclass[12pt,letterpaper]{article}
+
+\usepackage[spanish,es-tabla]{babel}
+\usepackage{fontspec}
+\IfFontExistsTF{Times New Roman}
+  {\setmainfont{Times New Roman}}
+  {\setmainfont{TeX Gyre Termes}}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{ragged2e}
+\justifying
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\graphicspath{{../imagenes/}{../imagenesv2/}}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric,fit,calc}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{xurl}
+\usepackage[hidelinks]{hyperref}
+\setlength{\emergencystretch}{3em}
+
+\definecolor{espeGreen}{HTML}{0F3D2E}
+\definecolor{deepTeal}{HTML}{123C55}
+\definecolor{softGold}{HTML}{C6A24A}
+\definecolor{ink}{HTML}{1F2933}
+\definecolor{mist}{HTML}{EFF3F1}
+\definecolor{cloud}{HTML}{F8FAF8}
+\definecolor{accentRed}{HTML}{B44B3F}
+\definecolor{steel}{HTML}{44546A}
+\definecolor{parchment}{HTML}{D7C79C}
+\definecolor{wood}{HTML}{3A271C}
+\definecolor{fog}{HTML}{DCE2DE}
+
+\titleformat{\section}{\normalfont\Large\bfseries\color{espeGreen}}{\thesection.}{0.7em}{}
+\titleformat{\subsection}{\normalfont\large\bfseries\color{deepTeal}}{\thesubsection.}{0.7em}{}
+\captionsetup{font=small,labelfont=bf}
+
+\pagestyle{fancy}
+\setlength{\headheight}{14pt}
+\fancyhf{}
+\lhead{\small Echoes of the Rails}
+\rhead{\small Desarrollo de Videojuegos}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\newcolumntype{Y}{>{\RaggedRight\arraybackslash}X}
+\newcolumntype{L}[1]{>{\RaggedRight\arraybackslash}p{#1}}
+
+\newcommand{\placeholder}[2]{
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+  \draw[rounded corners=3pt,dashed,line width=0.9pt,color=steel] (0,0) rectangle (#1,4.2);
+  \fill[fog!55] (0.08,0.08) rectangle (#1-0.08,4.12);
+  \node[text width=#1 cm,align=center,color=steel,font=\bfseries] at (#1/2,2.35) {ESPACIO PARA IMAGEN};
+  \node[text width=#1 cm,align=center,color=ink,font=\small] at (#1/2,1.75) {#2};
+\end{tikzpicture}
+\end{figure}
+}
+
+\begin{document}
+
+\thispagestyle{empty}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[cloud] (current page.south west) rectangle (current page.north east);
+  \fill[espeGreen] (current page.north west) rectangle ([xshift=4.2cm]current page.south west);
+  \fill[deepTeal] ([xshift=3.55cm]current page.north west) -- ([xshift=5.05cm]current page.north west) -- ([xshift=3.95cm]current page.south west) -- ([xshift=2.65cm]current page.south west) -- cycle;
+  \draw[softGold,line width=1.2pt] ([xshift=13.25cm,yshift=-1.1cm]current page.north west) -- ([xshift=-1.2cm,yshift=-1.1cm]current page.north east);
+  \draw[softGold,line width=1.2pt] ([xshift=5.2cm,yshift=1.1cm]current page.south west) -- ([xshift=-1.2cm,yshift=1.1cm]current page.south east);
+  \foreach \x/\y/\r in {1.1/-2.0/0.18,2.3/-4.7/0.11,1.5/-7.0/0.14,2.8/-9.6/0.09,1.0/-12.2/0.16,2.6/-15.5/0.12,1.4/-18.0/0.10}{
+    \fill[softGold!80] ([xshift=\x cm,yshift=\y cm]current page.north west) circle (\r cm);
+  }
+  \node[anchor=north west] at ([xshift=5.15cm,yshift=-0.82cm]current page.north west) {\includegraphics[width=7.9cm]{espe.jpg}};
+  \node[anchor=south west,rotate=90,text=cloud!86,font=\Large\bfseries] at ([xshift=1.0cm,yshift=1.7cm]current page.south west) {DESARROLLO DE VIDEOJUEGOS};
+  \draw[softGold,line width=0.9pt] ([xshift=0.8cm,yshift=1.35cm]current page.south west) -- ([xshift=0.8cm,yshift=11.5cm]current page.south west);
+  \node[anchor=south east,draw=softGold,line width=0.9pt,circle,minimum size=2.2cm,text=espeGreen,font=\Large\bfseries,fill=cloud] at ([xshift=-2.0cm,yshift=1.9cm]current page.south east) {G1};
+\end{tikzpicture}
+
+\vspace*{1.65cm}
+\noindent\hspace*{4.65cm}
+\begin{minipage}{0.66\textwidth}
+  \begin{flushleft}
+    {\Large\bfseries\color{espeGreen} Universidad de las Fuerzas Armadas ESPE\par}
+    \vspace{0.25cm}
+    {\large Carrera de Software\par}
+    \vspace{0.2cm}
+    {\large Desarrollo de Videojuegos\par}
+    \vspace{1.55cm}
+    {\fontsize{26}{31}\selectfont\bfseries\color{ink} Informe de diseño de personajes, interfaces, menús y HUD\par}
+    \vspace{0.35cm}
+    {\Large\color{softGold}\bfseries Proyecto: Echoes of the Rails\par}
+    \vspace{1.0cm}
+    \begin{tikzpicture}
+      \draw[softGold,line width=1pt] (0,0) -- (9.7,0);
+      \fill[softGold] (0,0) circle (2pt);
+      \fill[softGold] (9.7,0) circle (2pt);
+    \end{tikzpicture}
+    \vspace{0.55cm}
+
+    {\bfseries Grupo:} 1\par
+    \vspace{0.25cm}
+    {\bfseries Integrantes:}\par
+    Jordan Guaman\par
+    Mesias Mariscal\par
+    Anthony Morales\par
+    Denise Rea\par
+    \vspace{0.35cm}
+    {\bfseries NRC:} 30817\par
+    {\bfseries Docente:} Ing. Héctor Pinto\par
+    \vspace{0.55cm}
+    Sangolquí, Ecuador\par
+    Junio de 2026
+  \end{flushleft}
+\end{minipage}
+\clearpage
+
+\tableofcontents
+\newpage
+
+\section{Introducción}
+
+Este informe presenta el diseño visual y funcional de personajes, objetos, interfaces, menús y HUD del videojuego \textit{Echoes of the Rails}. El proyecto corresponde a una experiencia en primera persona con soporte VR, ambientada en una ruta ferroviaria nocturna donde el jugador controla una locomotora de vapor, administra carbón, regula presión, frena en estaciones y transporta pasajeros antes de que la niebla los reclame.
+
+El diseño se orienta a una estética de tren antiguo, bruma, madera oscura, metal envejecido, latón y documentos de papel. Por esta razón, la interfaz no se plantea como una superposición moderna independiente, sino como una mezcla de menús atmosféricos y HUD diegético integrado a la cabina. La intención es que cada elemento visual refuerce la fantasía de conducir el último tren por el Paso de la Bruma.
+
+\section{Objetivos del informe}
+
+\subsection{Objetivo general}
+
+Documentar el diseño de personajes, objetos interactivos, interfaces, menús, HUD y navegación de \textit{Echoes of the Rails}, justificando su relación con la historia, la estética y las mecánicas del videojuego.
+
+\subsection{Objetivos específicos}
+
+\begin{itemize}
+  \item Definir la identidad visual del juego y su coherencia con el género de conducción, supervivencia ligera y narrativa ferroviaria.
+  \item Presentar los menús principales, pantalla de configuración, créditos, carga y flujo de navegación.
+  \item Describir el HUD diegético de cabina: indicadores, relojes, placas de estado y retroalimentación de recursos.
+  \item Listar objetos, personajes y mecánicas interactivas implementadas o previstas en el repositorio.
+\end{itemize}
+
+\section{Descripción general del videojuego}
+
+\textit{Echoes of the Rails} es un videojuego de conducción ferroviaria atmosférica. El jugador asume el rol de maquinista y debe completar una ruta con varias estaciones. La partida se centra en llegar a tiempo, evitar quedarse sin carbón, controlar la velocidad en curvas, detenerse cerca del andén y recoger pasajeros o fragmentos narrativos. El proyecto está construido en Godot, con escenas separadas para menú, tren, cabina, estaciones, pasajeros, audio, entorno y HUD diegético.
+
+\begin{table}[H]
+\centering
+\caption{Ficha de diseño del videojuego}
+\small
+\begin{tabularx}{\textwidth}{L{4cm}Y}
+\toprule
+\textbf{Elemento} & \textbf{Descripción} \\
+\midrule
+Título & \textit{Echoes of the Rails}. \\
+Género & Conducción de tren en primera persona, administración de recursos, tensión atmosférica y narrativa por fragmentos. \\
+Perspectiva & Primera persona con soporte OpenXR/VR y controles de prueba en escritorio. \\
+Objetivo del jugador & Completar rutas, llegar a estaciones a tiempo, transportar pasajeros, desbloquear diarios y evitar condiciones de derrota. \\
+Condiciones de riesgo & Carbón agotado, exceso de velocidad en curvas, pérdida de estaciones por tiempo o por pasar el andén. \\
+Estética & Locomotora antigua, bosque nocturno, lluvia, niebla, papel envejecido, metal oxidado, madera oscura y latón. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Identidad visual y coherencia con el juego}
+
+La interfaz se diseña con una paleta sobria: verdes oscuros, dorados apagados, madera envejecida, negro metálico y tonos de pergamino. Esta decisión mantiene coherencia con el contexto narrativo del tren antiguo y evita que los menús se perciban como elementos ajenos al mundo del juego. Los fondos de locomotora nocturna, estación bajo lluvia y tren en carga se usan para marcar estados de navegación sin romper la atmósfera.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth]{fondo_locomotora.png}
+\caption{Fondo de introducción y título: locomotora nocturna y atmósfera de viaje final.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth]{fondo_estacion.png}
+\caption{Fondo de menú principal: estación lluviosa, compatible con la espera de pasajeros y la temática de niebla.}
+\end{figure}
+
+El uso de placas, botones oscuros, iconos de tren, engranaje, libro y salida ayuda a que las opciones sean reconocibles sin saturar la pantalla. La tipografía y los textos en mayúsculas aportan tono de cartel ferroviario, mientras que los controles se presentan con prompts simples para facilitar navegación por teclado o mando.
+
+\section{Diseño de personajes}
+
+\subsection{Jugador o maquinista}
+
+El jugador representa al maquinista de la locomotora. Su diseño no depende de un avatar visible, porque la experiencia se plantea en primera persona y VR. La identidad del personaje se expresa mediante su relación con la cabina: manos o controladores, regulador de vapor, palanca de freno, silbato, botón de compra de carbón y tablero de instrumentos. Esta decisión mantiene la inmersión, ya que el jugador se siente dentro de la locomotora en lugar de observar a un personaje externo.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.96\textwidth]{img_perspectivaMaquinista.jpg}
+\caption{Captura del punto de vista del maquinista dentro de la cabina.}
+\end{figure}
+
+\subsection{Pasajeros}
+
+Los pasajeros funcionan como personajes narrativos y como objetivo de jugabilidad. En el repositorio existe una escena \texttt{Passenger.tscn} y un recurso \texttt{PassengerData.tres}. El script del pasajero contempla estados de espera, abordaje y pérdida en la niebla. Cuando el jugador no cumple con el tiempo de estación, los pasajeros pueden desvanecerse mediante un shader de \textit{fade}, reforzando la temática sobrenatural.
+
+Desde el punto de vista visual, los pasajeros deben mantener una silueta sobria, con ropa antigua, baja saturación y rasgos que puedan distinguir entre personas vivas y almas perdidas. No se recomienda un estilo caricaturesco brillante, porque rompería el tono de misterio. El diseño debe priorizar lectura clara en VR: cabeza, torso, postura de espera y contraste suficiente contra la niebla.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.96\textwidth]{img_pasajeros.png}
+\caption{Diseño de pasajeros: versión en andén y efecto de desvanecimiento en la niebla.}
+\end{figure}
+
+\subsection{Personajes narrativos en tarjetas de memoria}
+
+El sistema de memorias presenta cartas narrativas que refuerzan la identidad de los personajes secundarios y permiten clasificar relatos entre \textit{ALMA} y \textit{VIVO}. Su estilo de papel envejecido, retrato monocromático y texto manuscrito coincide con la estética ferroviaria y funciona como evidencia visual de diseño narrativo.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.96\textwidth]{tarjetas_memoria.png}
+\caption{Diseño de tarjetas de memoria generadas para personajes y fragmentos narrativos.}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\caption{Listado de memorias narrativas y tipo de personaje}
+\small
+\begin{tabularx}{\textwidth}{L{1.6cm}L{5.5cm}L{2.2cm}Y}
+\toprule
+\textbf{N.} & \textbf{Título} & \textbf{Tipo} & \textbf{Función narrativa} \\
+\midrule
+01 & Ticket sin regreso & Alma & Presenta la idea de pasajeros que viajan hacia un destino imposible. \\
+02 & Carbón en las manos & Vivo & Conecta el recurso carbón con culpa familiar y deuda antigua. \\
+03 & Última campana & Alma & Refuerza el límite temporal y la llegada tarde. \\
+04 & Mapa doblado & Vivo & Sugiere búsqueda de lugares perdidos. \\
+05 & La costurera de humo & Alma & Une humo, despedida y liberación. \\
+06 & El soldado sin sombra & Vivo & Introduce ambigüedad entre promesa, guerra y retorno. \\
+07 & Voz en la caldera & Alma & Relaciona la caldera con memoria y supervivencia. \\
+08 & El hombre de los mapas & Vivo & Apoya la exploración del Paso de la Bruma. \\
+09 & La viuda de la niebla & Alma & Fortalece el motivo visual de la niebla. \\
+13 & La florista de las vías & Vivo & Humaniza la ruta con ofrendas y memoria. \\
+14 & Pasajero que no parpadea & Alma & Crea inquietud visual y renuncia al nombre antiguo. \\
+15 & La llave que no abre & Vivo & Representa cierre, despedida y último tren. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Diseño de interfaces, menús y HUD}
+
+\subsection{Menú principal}
+
+El flujo inicial está implementado en \texttt{MainMenuFlow.gd}. La navegación empieza con una pantalla de arranque, continúa con el título y luego muestra el menú principal. Las opciones principales son: \textit{Iniciar viaje}, \textit{Configuración}, \textit{Créditos} y \textit{Salir}. El diseño usa fondos atmosféricos y un panel central con botones de alto contraste para mantener legibilidad.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.96\textwidth]{img_menuInit1.jpg}
+\caption{Captura del menú principal en Godot con sus opciones visibles.}
+\end{figure}
+
+\subsection{Pantalla de configuración}
+
+La pantalla de configuración permite ajustar diversos parámetros del juego. En el proyecto aparecen pestañas para controles, comodidad VR y audio. Para controles de escritorio se detallan: \texttt{W/S} para regulador de vapor, \texttt{A/D} para freno, \texttt{B} para comprar carbón y \texttt{H} para silbato. La sección de audio permite ajustar el volumen general, de música y de efectos, ofreciendo una experiencia inmersiva personalizada.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.96\textwidth]{conf_audio.jpg}
+\caption{Pantalla de configuración mostrando la sección de audio y volúmenes.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.96\textwidth]{conf_controles.jpg}
+\caption{Pantalla de configuración mostrando la sección de controles de juego.}
+\end{figure}
+
+\subsection{Pantallas de carga}
+
+Durante la transición entre el menú y la partida principal, así como al cargar diferentes entornos, el videojuego utiliza pantallas de carga que mantienen el tono estético del proyecto. Estas pantallas utilizan ilustraciones coherentes con la temática ferroviaria \textit{low-poly} y oscura, evitando interrumpir la inmersión del jugador mientras se preparan los niveles.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.96\textwidth]{fondo_carga.jpeg}
+\caption{Primera pantalla de carga: arte conceptual de la cabina de la locomotora.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.96\textwidth]{lowpoly_train_loading.jpeg}
+\caption{Segunda pantalla de carga: vista exterior en estilo \textit{low-poly} de la locomotora nocturna.}
+\end{figure}
+
+\subsection{Pausa y Fin de partida}
+
+Durante la partida, el jugador puede acceder a una pantalla de pausa diegética o encontrarse con una pantalla de fin de partida (\textit{Game Over}) si alcanza una condición de derrota (como quedarse sin carbón o descarrilar). Ambas interfaces están diseñadas para no romper la atmósfera, usando filtros oscuros y tipografía de máquina de escribir o estética desgastada.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.96\textwidth]{img_pantallaPause.jpg}
+\caption{Interfaz de pausa diegética: permite suspender el viaje y gestionar la sesión sin romper la atmósfera.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.96\textwidth]{img_pantallaGameOver.jpg}
+\caption{Pantalla de fin de partida: muestra la retroalimentación visual cuando el jugador alcanza una condición de derrota.}
+\end{figure}
+
+\subsection{HUD diegético de cabina}
+
+El HUD se integra en la cabina mediante escenas como \texttt{Dashboard.tscn}, \texttt{CoalGauge.tscn}, \texttt{SpeedGauge.tscn}, \texttt{PressureGauge.tscn}, \texttt{StationClock.tscn} y \texttt{SupplyPanel.tscn}. Este enfoque es coherente con VR, porque evita llenar la vista con texto flotante y permite que el jugador lea información como si estuviera mirando instrumentos reales del tren.
+
+\begin{table}[H]
+\centering
+\caption{Elementos del HUD y función en la jugabilidad}
+\small
+\begin{tabularx}{\textwidth}{L{4cm}Y}
+\toprule
+\textbf{Elemento HUD} & \textbf{Función} \\
+\midrule
+Velocímetro & Informa velocidad actual para controlar llegada a estaciones y evitar curvas peligrosas. \\
+Medidor de presión & Muestra presión de caldera; alerta cuando se acerca a valores altos. \\
+Medidor de carbón & Indica recurso disponible; activa advertencia cuando baja a nivel crítico. \\
+Reloj de estación & Apoya la mecánica de tiempo límite por estación. \\
+Placa de puntos & Presenta el puntaje acumulado por pasajeros y puntualidad. \\
+Placa de estado & Comunica estado general del viaje, por ejemplo \textit{TRAVELING}. \\
+Panel de suministro & Muestra retroalimentación de compra de carbón o errores como falta de puntos. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.96\textwidth]{img_UHDdiegetico_cabina.jpg}
+\caption{Captura del HUD diegético en cabina mostrando los diferentes medidores e indicadores.}
+\end{figure}
+
+\section{Navegación y experiencia de usuario}
+
+La navegación está pensada para ser directa: el jugador no necesita pasar por muchas pantallas antes de iniciar la partida, pero sí tiene acceso a configuración y créditos. El flujo mantiene consistencia visual y siempre ofrece una acción de retorno en pantallas secundarias.
+
+\begin{figure}[H]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+  node distance=1.6cm and 1.7cm,
+  box/.style={draw=deepTeal,rounded corners=4pt,fill=mist,minimum width=3.1cm,minimum height=0.9cm,align=center,font=\small\bfseries},
+  action/.style={draw=softGold,rounded corners=4pt,fill=softGold!20,minimum width=3.1cm,minimum height=0.9cm,align=center,font=\small\bfseries},
+  arrow/.style={-{Latex[length=2.5mm]},line width=0.8pt,color=steel}
+]
+\node[box] (boot) {Arranque\\BOOT};
+\node[box,right=of boot] (title) {Título\\TITLE};
+\node[box,right=of title] (menu) {Menú\\MENU};
+\node[action,below left=of menu] (game) {Carga de juego\\LOADING};
+\node[action,below=of menu] (config) {Configuración\\CONFIG};
+\node[action,below right=of menu] (credits) {Créditos\\CREDITS};
+\node[box,below=of game] (main) {Partida\\MainGame};
+\node[box,right=of credits] (exit) {Salir};
+\draw[arrow] (boot) -- (title);
+\draw[arrow] (title) -- node[above,font=\scriptsize]{Aceptar} (menu);
+\draw[arrow] (menu) -- node[left,font=\scriptsize]{Iniciar viaje} (game);
+\draw[arrow] (game) -- (main);
+\draw[arrow] (menu) -- node[left,font=\scriptsize]{Configuración} (config);
+\draw[arrow] (menu) -- node[right,font=\scriptsize]{Créditos} (credits);
+\draw[arrow] (config) -- node[right,font=\scriptsize]{Volver} (menu);
+\draw[arrow] (credits) -- node[above,font=\scriptsize]{Volver} (menu);
+\draw[arrow] (menu) -- node[above,font=\scriptsize]{Salir} (exit);
+\end{tikzpicture}
+}
+\caption{Flujo de navegación entre pantallas principales del videojuego.}
+\end{figure}
+
+La experiencia de usuario se apoya en tres decisiones: escalado centralizado para mantener proporciones en 1280x720, resaltado de botón seleccionado y carga asíncrona hacia la escena de juego. En el menú, las entradas se pueden controlar con teclado o ratón; en la partida, los controles de escritorio permiten probar mecánicas sin depender del visor VR.
+
+\section{Listado de objetos, personajes y mecánicas interactivas}
+
+\subsection{Objetos interactivos}
+
+\begin{table}[H]
+\centering
+\caption{Objetos interactivos principales}
+\scriptsize
+\begin{tabularx}{\textwidth}{L{3.4cm}L{4.3cm}Y}
+\toprule
+\textbf{Objeto} & \textbf{Escena o script asociado} & \textbf{Función en el juego} \\
+\midrule
+Locomotora / tren & \shortstack[l]{\texttt{Train.tscn}\\\texttt{TrainController.gd}} & Vehículo principal; avanza por la vía, responde a aceleración, freno, arrastre y límites de velocidad. \\
+Regulador de vapor & \texttt{SteamRegulator.tscn} & Controla la aceleración y la presión de la caldera. \\
+Palanca de freno & \shortstack[l]{\texttt{BrakeLever.tscn}\\\texttt{BrakeSystem.gd}} & Reduce velocidad y permite detenerse en estaciones. \\
+Silbato & \texttt{Whistle.tscn} & Acción diegética de tren; aporta respuesta auditiva e identidad ferroviaria. \\
+Botón de comprar carbón & \texttt{BuyCoalButton.tscn} & Solicita recarga de carbón mediante puntos o configuración de balance. \\
+Caldera / carbón & \texttt{FuelSystem.gd} & Recurso de supervivencia; si se agota, produce derrota por \texttt{OUT\_OF\_COAL}. \\
+Vías y ruta & \shortstack[l]{\texttt{TrackPath.tscn}\\\texttt{TrackPathBuilder.gd}} & Define el recorrido y zonas de curva. \\
+Estaciones & \shortstack[l]{\texttt{Station.tscn}\\\texttt{StationManager.gd}} & Lugares de parada con tiempo límite, pasajeros y fragmentos de diario. \\
+Niebla & \texttt{FogWorld.tscn}, shaders de disolución & Elemento ambiental y narrativo; oculta, amenaza y permite desaparición de pasajeros. \\
+Fragmentos de diario & \shortstack[l]{\texttt{DiaryManager.gd}\\\texttt{diary\_001--005.tres}} & Recompensa narrativa desbloqueada al completar estaciones. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Personajes}
+
+\begin{table}[H]
+\centering
+\caption{Personajes y rol jugable}
+\small
+\begin{tabularx}{\textwidth}{L{4cm}Y}
+\toprule
+\textbf{Personaje} & \textbf{Rol dentro de la jugabilidad} \\
+\midrule
+Maquinista / jugador & Controla el tren, regula velocidad, frena, compra carbón, usa el silbato y decide cómo responder a cada estación. \\
+Pasajeros vivos & Esperan en andenes; entregan puntos al abordar y refuerzan la presión de llegar a tiempo. \\
+Almas o pasajeros perdidos & Refuerzan el tono sobrenatural; pueden desaparecer en la niebla si el jugador falla. \\
+Personajes de memoria & Aparecen como cartas narrativas coleccionables o material de presentación; expanden historia, tono y conflicto emocional. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Mecánicas interactivas}
+
+\begin{table}[H]
+\centering
+\caption{Mecánicas implementadas o previstas según el repositorio}
+\small
+\begin{tabularx}{\textwidth}{L{4cm}L{3.5cm}Y}
+\toprule
+\textbf{Mecánica} & \textbf{Entrada o variable} & \textbf{Descripción} \\
+\midrule
+Aceleración & \texttt{W} / regulador & Aumenta velocidad hasta máximo 35.0, condicionado por carbón disponible. \\
+Frenado & \texttt{A/D} o \texttt{S} / palanca & Disminuye velocidad; necesario para detenerse dentro del umbral de estación. \\
+Consumo de carbón & Velocidad y aceleración & Reduce el carbón mientras el tren se mueve o acelera; alerta crítica en 15.0. \\
+Compra de carbón & \texttt{B} / botón & Recarga 25.0 de carbón si el balance lo permite. \\
+Presión de caldera & Acelerador y freno & Sube con aceleración y baja al frenar; advierte sobre presión alta desde 85.0. \\
+Riesgo de descarrilamiento & Curva y velocidad & Si la velocidad supera 25.0 en curva, aumenta riesgo; al llegar al límite produce derrota. \\
+Llegada a estación & Distancia, velocidad y tiempo & La estación se completa si el tren está detenido cerca del andén antes de que termine el temporizador. \\
+Pérdida de estación & Tiempo agotado o pasar plataforma & Los pasajeros se pierden en la niebla y se avanza a la siguiente estación. \\
+Puntaje & Pasajeros y puntualidad & Cada pasajero suma 10 puntos; cada estación exitosa suma bono de 25 puntos. \\
+Diarios / memorias & Estaciones completadas & Al completar estaciones se desbloquean fragmentos narrativos. \\
+Silbato & \texttt{H} / objeto interactivo & Acción de ambientación sonora y respuesta inmediata al control del jugador. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Justificación de diseño}
+
+\begin{table}[H]
+\centering
+\caption{Relación entre las decisiones de diseño, la utilidad de las interfaces y personajes dentro del juego }
+\small
+\begin{tabularx}{\textwidth}{L{4cm}Y}
+\toprule
+\textbf{Criterio} & \textbf{Evidencia en el proyecto} \\
+\midrule
+Coherencia de la interfaz con el videojuego & Menús con fondos de locomotora y estación; HUD diegético de cabina; colores de madera, metal, niebla y pergamino; narrativa de último tren y pasajeros perdidos. \\
+Diseño visual de objetos, personajes, interfaces, menús y HUD & Assets separados para botones, paneles, iconos y prompts; tarjetas de memoria con retrato, estado y texto; gauges y placas 3D para velocidad, carbón, presión, puntuación y estado. \\
+Navegación y experiencia de usuario & Flujo claro: arranque, título, menú, configuración, créditos, carga y partida; controles visibles; retorno desde pantallas secundarias; selección con teclado/ratón. \\
+Objetos, personajes y mecánicas interactivas & Listado de tren, regulador, freno, carbón, silbato, estaciones, pasajeros, diarios, niebla y sistemas de puntaje, presión, combustible y descarrilamiento. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Conclusiones}
+
+El diseño de \textit{Echoes of the Rails} mantiene coherencia entre historia, mecánicas e interfaz. Los menús usan fondos, placas e iconos compatibles con la ambientación ferroviaria; el HUD se integra dentro de la cabina para favorecer inmersión en VR; y las mecánicas de carbón, presión, freno, estaciones y pasajeros refuerzan la tensión de llegar a tiempo.
+
+La mayor fortaleza del diseño es la relación entre interfaz y mundo del juego: los indicadores no son únicamente información técnica, sino objetos que pertenecen a la locomotora. Esta decisión mejora la experiencia de usuario porque el jugador aprende a mirar la cabina como espacio funcional. Además, el sistema de memorias y pasajeros permite justificar visualmente la diferencia entre personas vivas y almas perdidas.
+
+\end{document}

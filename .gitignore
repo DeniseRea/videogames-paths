@@ -1,0 +1,6 @@
+# LaTeX build artifacts
+*.log
+*.aux
+*.out
+*.toc
+build-*.log
