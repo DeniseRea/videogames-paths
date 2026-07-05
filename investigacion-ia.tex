@@ -1,0 +1,698 @@
+\documentclass[12pt,letterpaper]{article}
+
+\usepackage[spanish,es-tabla]{babel}
+\usepackage{fontspec}
+\IfFontExistsTF{Times New Roman}
+  {\setmainfont{Times New Roman}}
+  {\setmainfont{TeX Gyre Termes}}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{ragged2e}
+\justifying
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\graphicspath{{./}{../imagenes/}{../imagenesv2/}{./caminos-bfs/imagenes/}}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric,fit,calc,shapes.misc}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{xurl}
+\usepackage[hidelinks]{hyperref}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\setlength{\emergencystretch}{3em}
+
+\definecolor{espeGreen}{HTML}{0F3D2E}
+\definecolor{deepTeal}{HTML}{123C55}
+\definecolor{softGold}{HTML}{C6A24A}
+\definecolor{ink}{HTML}{1F2933}
+\definecolor{mist}{HTML}{EFF3F1}
+\definecolor{cloud}{HTML}{F8FAF8}
+\definecolor{accentRed}{HTML}{B44B3F}
+\definecolor{steel}{HTML}{44546A}
+\definecolor{parchment}{HTML}{D7C79C}
+\definecolor{wood}{HTML}{3A271C}
+\definecolor{fog}{HTML}{DCE2DE}
+
+\titleformat{\section}{\normalfont\Large\bfseries\color{espeGreen}}{\thesection.}{0.7em}{}
+\titleformat{\subsection}{\normalfont\large\bfseries\color{deepTeal}}{\thesubsection.}{0.7em}{}
+\captionsetup{font=small,labelfont=bf}
+
+\pagestyle{fancy}
+\setlength{\headheight}{14pt}
+\fancyhf{}
+\lhead{\small Técnicas de Toma de Decisiones en IA para Videojuegos}
+\rhead{\small Desarrollo de Videojuegos}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\newcolumntype{Y}{>{\RaggedRight\arraybackslash}X}
+\newcolumntype{L}[1]{>{\RaggedRight\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\RaggedRight\arraybackslash}p{#1}}
+
+\begin{document}
+
+\thispagestyle{empty}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[cloud] (current page.south west) rectangle (current page.north east);
+  \fill[espeGreen] (current page.north west) rectangle ([xshift=4.2cm]current page.south west);
+  \fill[deepTeal] ([xshift=3.55cm]current page.north west) -- ([xshift=5.05cm]current page.north west) -- ([xshift=3.95cm]current page.south west) -- ([xshift=2.65cm]current page.south west) -- cycle;
+  \draw[softGold,line width=1.2pt] ([xshift=13.25cm,yshift=-1.1cm]current page.north west) -- ([xshift=-1.2cm,yshift=-1.1cm]current page.north east);
+  \draw[softGold,line width=1.2pt] ([xshift=5.2cm,yshift=1.1cm]current page.south west) -- ([xshift=-1.2cm,yshift=1.1cm]current page.south east);
+  \foreach \x/\y/\r in {1.1/-2.0/0.18,2.3/-4.7/0.11,1.5/-7.0/0.14,2.8/-9.6/0.09,1.0/-12.2/0.16,2.6/-15.5/0.12,1.4/-18.0/0.10}{
+    \fill[softGold!80] ([xshift=\x cm,yshift=\y cm]current page.north west) circle (\r cm);
+  }
+  \node[anchor=north west] at ([xshift=5.15cm,yshift=-0.82cm]current page.north west) {\includegraphics[width=7.9cm]{espe.jpg}};
+  \node[anchor=south west,rotate=90,text=cloud!86,font=\Large\bfseries] at ([xshift=1.0cm,yshift=1.7cm]current page.south west) {DESARROLLO DE VIDEOJUEGOS};
+  \draw[softGold,line width=0.9pt] ([xshift=0.8cm,yshift=1.35cm]current page.south west) -- ([xshift=0.8cm,yshift=11.5cm]current page.south west);
+  \node[anchor=south east,draw=softGold,line width=0.9pt,circle,minimum size=2.2cm,text=espeGreen,font=\Large\bfseries,fill=cloud] at ([xshift=-2.0cm,yshift=1.9cm]current page.south east) {G1};
+\end{tikzpicture}
+
+\vspace*{1.65cm}
+\noindent\hspace*{4.65cm}
+\begin{minipage}{0.66\textwidth}
+  \begin{flushleft}
+    {\Large\bfseries\color{espeGreen} Universidad de las Fuerzas Armadas ESPE\par}
+    \vspace{0.25cm}
+    {\large Carrera de Software\par}
+    \vspace{0.2cm}
+    {\large Desarrollo de Videojuegos\par}
+    \vspace{1.55cm}
+    {\fontsize{26}{31}\selectfont\bfseries\color{ink} Investigación de Técnicas de Toma de Decisiones en IA para Videojuegos\par}
+    \vspace{0.35cm}
+    {\Large\color{softGold}\bfseries Caso de Estudio: Halo\par}
+    \vspace{1.0cm}
+    \begin{tikzpicture}
+      \draw[softGold,line width=1pt] (0,0) -- (9.7,0);
+      \fill[softGold] (0,0) circle (2pt);
+      \fill[softGold] (9.7,0) circle (2pt);
+    \end{tikzpicture}
+    \vspace{0.55cm}
+
+    {\bfseries Grupo:} 1\par
+    \vspace{0.25cm}
+    {\bfseries Integrantes:}\par
+    Jordan Guaman\par
+    Mesias Mariscal\par
+    Anthony Morales\par
+    Denise Rea\par
+    \vspace{0.35cm}
+    {\bfseries NRC:} 30817\par
+    {\bfseries Docente:} Ing. Héctor Pinto\par
+    \vspace{0.55cm}
+    Sangolquí, Ecuador\par
+    Junio de 2026
+  \end{flushleft}
+\end{minipage}
+\clearpage
+
+\tableofcontents
+\newpage
+
+\section{Introducción}
+
+La inteligencia artificial en los videojuegos ha experimentado una evolución profunda desde sus inicios en la década de 1970, cuando los enemigos seguían patrones de movimiento predecibles como el comportamiento de los fantasmas en \textit{Pac-Man}. En la actualidad, los NPCs (personajes no jugadores) son capaces de exhibir comportamientos emergentes, adaptativos y tácticos que simulan inteligencia y credibilidad. En el centro de esta transformación se encuentran las \textbf{técnicas de toma de decisiones}, que constituyen el \textit{cerebro} de cada agente virtual, determinando cómo reaccionan al entorno, al jugador y a otros NPCs.
+
+La elección de la técnica adecuada depende de múltiples factores: el tipo de personaje, la frecuencia de actualización requerida, el presupuesto computacional disponible y el nivel de imprevisibilidad deseado. No existe una técnica universalmente superior; cada una presenta ventajas y limitaciones que la hacen más adecuada para contextos específicos.
+
+Este documento presenta una investigación exhaustiva de ocho técnicas fundamentales de toma de decisiones utilizadas en la industria del videojuego, organizadas desde las más simples y predecibles hasta las más complejas y emergentes:
+
+\begin{itemize}[nosep]
+  \item Máquinas de Estados Finitos (FSM) y su evolución jerárquica (HFSM)
+  \item Árboles de Comportamiento (Behavior Trees)
+  \item Árboles de Decisión (Decision Trees)
+  \item Sistemas Basados en Reglas (Rule-Based Systems)
+  \item Planificación de Acciones Orientada a Objetivos (GOAP)
+  \item Lógica Difusa (Fuzzy Logic)
+  \item Sistemas de Utilidad (Utility AI)
+  \item Aprendizaje por Refuerzo (Reinforcement Learning)
+\end{itemize}
+
+Se analiza su aplicación práctica en el videojuego \textit{Halo} como caso de estudio, identificando qué técnicas emplean los distintos personajes (Grunts, Elites, Jackals, Hunters, Flood) y explicando en detalle el flujo de decisión que siguen: desde la percepción del entorno hasta el cambio de estado interno, pasando por la evaluación de condiciones, la selección de acciones y la ejecución de comandos en los subsistemas del motor.
+
+\section{Técnicas de Toma de Decisiones}
+
+\subsection{Máquinas de Estados Finitos (FSM)}
+
+\subsubsection{Definición y fundamentos}
+
+Una \textbf{Máquina de Estados Finitos} es un modelo computacional donde un agente solo puede estar en un único estado predefinido a la vez. Las transiciones entre estados ocurren al cumplirse condiciones específicas, usualmente definidas por eventos del juego o cambios en variables del entorno.
+
+Formalmente, una FSM se define como la tupla \((S, E, T, s_0, F)\) donde:
+
+\begin{itemize}[nosep]
+  \item \(S\): conjunto finito de estados (ej: \texttt{PATRULLAR}, \texttt{ALERTA}, \texttt{ATACAR})
+  \item \(E\): conjunto de eventos o condiciones de entrada
+  \item \(T: S \times E \to S\): función de transición que determina el siguiente estado
+  \item \(s_0 \in S\): estado inicial
+  \item \(F \subseteq S\): conjunto de estados finales o de aceptación
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  node distance=2.8cm,
+  state/.style={draw=deepTeal,rounded corners=4pt,fill=mist,minimum width=2.8cm,minimum height=1cm,align=center,font=\small\bfseries},
+  trans/.style={-{Latex[length=2mm]},line width=0.7pt,color=steel,font=\footnotesize}
+]
+\node[state] (patrol) {Patrullar};
+\node[state,right=of patrol] (chase) {Perseguir};
+\node[state,below=of patrol] (attack) {Atacar};
+\node[state,below=of chase] (flee) {Huir};
+
+\draw[trans] (patrol) -- node[above]{Jugador detectado} (chase);
+\draw[trans] (chase) -- node[right]{Rango cercano} (attack);
+\draw[trans] (attack) -- node[below left,font=\tiny]{Salud $<$ 20\%} (flee);
+\draw[trans] (flee) -- node[below right,font=\tiny]{Distancia segura} (patrol);
+\draw[trans] (chase) -- node[below]{Perdió objetivo} (patrol);
+\draw[trans] (attack) to[bend right=30] node[above,font=\tiny]{Jugador murió} (patrol);
+\end{tikzpicture}
+\caption{Diagrama de una Máquina de Estados Finitos para un NPC de patrulla. Cada estado representa un comportamiento y las flechas indican las condiciones de transición.}
+\end{figure}
+
+\subsubsection{Ventajas y limitaciones}
+
+Las FSM son conceptualmente simples y fáciles de implementar, lo que las hace ideales para enemigos básicos con patrones predecibles. Sin embargo, su principal limitación es la \textit{explosión de estados}: al crecer la lógica del comportamiento, el número de transiciones crece de forma cartesiana. Con \(n\) estados y \(m\) condiciones, se requieren hasta \(n \times m\) transiciones potenciales, lo que genera código espagueti difícil de mantener y escalar.
+
+\subsubsection{Evolución: HFSM (Máquinas de Estados Jerárquicas)}
+
+La solución a la explosión de estados son las \textbf{HFSM}, que permiten anidar estados dentro de otros estados. Un estado \textit{Combate} puede contener subestados como \textit{Atacar}, \textit{Esquivar} y \textit{Recargar}, y las transiciones de alto nivel (ej: \textit{Recibir daño crítico}) interrumpen los subestados y llevan al agente a \textit{Huir}. Esto reduce drásticamente el acoplamiento y mejora la organización del código.
+
+\subsubsection{Aplicación en Halo}
+
+Los \textbf{Flood} en Halo utilizan FSM puras con estados simples: \textit{Merodear}, \textit{Detectar}, \textit{Cargar} y \textit{Atacar cuerpo a cuerpo}. Este comportamiento de enjambre no requiere planificación compleja, solo reacciones rápidas y predecibles. Los \textbf{Hunters} combinan FSM con Behavior Trees: su estado base es de patrulla en pareja, pero al detectar al jugador transicionan a estados de disparo (ráfagas) y carga cuerpo a cuerpo, exponiendo su punto débil dorsal.
+
+\subsection{Árboles de Comportamiento (Behavior Trees)}
+
+\subsubsection{Definición y fundamentos}
+
+Un \textbf{Árbol de Comportamiento} es una estructura jerárquica de nodos que se evalúa desde la raíz en cada \textit{tick} del motor. A diferencia de las FSM, los BT no mantienen un estado explícito; en su lugar, evalúan todo el árbol en cada frame, lo que los hace inherentemente más reactivos.
+
+Los tipos de nodos fundamentales son:
+
+\begin{itemize}[nosep]
+  \item \textbf{Raíz}: punto de entrada; ejecuta un único hijo en cada tick
+  \item \textbf{Selector (Fallback)}: ejecuta hijos en orden; devuelve \texttt{Éxito} si algún hijo tiene éxito (equivalente a un OR lógico)
+  \item \textbf{Secuencia (Sequence)}: ejecuta hijos en orden; devuelve \texttt{Éxito} solo si todos tienen éxito (equivalente a un AND lógico)
+  \item \textbf{Decoradores}: modifican el comportamiento del hijo (ej: \texttt{Inverter}, \texttt{Cooldown}, \texttt{Limit})
+  \item \textbf{Condiciones}: evalúan una variable del Blackboard y devuelven \texttt{Éxito} o \texttt{Fallo}
+  \item \textbf{Acciones}: ejecutan una tarea y pueden devolver \texttt{Éxito}, \texttt{Fallo} o \texttt{En ejecución}
+\end{itemize}
+
+El \textbf{Blackboard} actúa como memoria compartida donde todos los nodos leen y escriben variables, desacoplando las condiciones de las acciones y facilitando la depuración visual.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  snode/.style={draw,rounded corners=3pt,minimum width=2.8cm,minimum height=0.7cm,align=center,font=\small\bfseries},
+  leaf/.style={draw,rounded corners=3pt,minimum width=2.8cm,minimum height=0.6cm,align=center,font=\footnotesize\bfseries},
+  arr/.style={-{Latex[length=2mm]},line width=0.7pt,color=steel}
+]
+
+\node[snode,fill=softGold!30,draw=softGold] (root) at (3.5,4.5) {Selector Raíz};
+
+\node[snode,fill=deepTeal!20,draw=deepTeal] (seq1) at (1.5,3.2) {Secuencia};
+\node[snode,fill=deepTeal!20,draw=deepTeal] (seq2) at (5.5,3.2) {Secuencia};
+
+\node[snode,fill=fog!80,draw=steel] (c1) at (1.5,2.0) {¿Jugador visible?};
+\node[snode,fill=fog!80,draw=steel] (c2) at (5.5,2.0) {¿Salud baja?};
+
+\node[leaf,fill=espeGreen!15,draw=espeGreen] (a1) at (0.2,0.8) {Perseguir};
+\node[leaf,fill=espeGreen!15,draw=espeGreen] (a2) at (1.8,0.8) {Atacar};
+\node[leaf,fill=espeGreen!15,draw=espeGreen] (a3) at (4.8,0.8) {Huir};
+\node[leaf,fill=espeGreen!15,draw=espeGreen] (a4) at (6.2,0.8) {Patrullar};
+
+\node[snode,fill=fog!80,draw=steel] (c3) at (1.0,0.8) {};
+
+\draw[arr] (root) -- node[font=\tiny,left]{rama 1} (seq1);
+\draw[arr] (root) -- node[font=\tiny,right]{rama 2} (seq2);
+\draw[arr] (seq1) -- (c1);
+\draw[arr] (seq1) -- (c3);
+\draw[arr] (seq2) -- (c2);
+\draw[arr] (seq2) -- (a4);
+\draw[arr] (c1) -- (a1);
+\draw[arr] (c3) -- (a2);
+
+\node[font=\small,align=left,above=3pt of root] {\textbf{Leyenda:}\quad
+\tikz\node[fill=softGold!30,draw=softGold,rounded corners=2pt,inner sep=2pt,font=\tiny]{Selector}; \quad
+\tikz\node[fill=deepTeal!20,draw=deepTeal,rounded corners=2pt,inner sep=2pt,font=\tiny]{Secuencia}; \quad
+\tikz\node[fill=fog!80,draw=steel,rounded corners=2pt,inner sep=2pt,font=\tiny]{Condición}; \quad
+\tikz\node[fill=espeGreen!15,draw=espeGreen,rounded corners=2pt,inner sep=2pt,font=\tiny]{Acción};
+};
+\end{tikzpicture}
+\caption{Estructura de un Árbol de Comportamiento. El Selector evalúa las ramas en orden; la primera que devuelve \texttt{Éxito} detiene la evaluación (cortocircuito).}
+\end{figure}
+
+\subsubsection{Ventajas y limitaciones}
+
+Los BT son altamente escalables, modulares y fáciles de depurar visualmente (herramientas como Unreal Engine pintan de verde/rojo los nodos que tienen éxito/fallan). Su principal desventaja es que el tick desde la raíz cada frame puede ser costoso si el árbol es muy grande; la optimización clave son los \textit{Event-Driven Behavior Trees}, que solo reevalúan ramas cuando cambian las variables del Blackboard.
+
+\subsubsection{Aplicación en Halo}
+
+Los \textbf{Grunts} y \textbf{Elites} utilizan Behavior Trees como núcleo de su IA. Los Grunts evalúan la variable \texttt{isEliteAlive} en un Selector de alta prioridad; cuando el Elite líder muere, el cortocircuito activa la rama de \textit{Pánico}. Los Elites utilizan selectores anidados para priorizar la supervivencia sobre el ataque, evaluando primero la salud del escudo y luego la disponibilidad de cobertura.
+
+\subsection{Árboles de Decisión (Decision Trees)}
+
+\subsubsection{Definición y fundamentos}
+
+Un \textbf{Árbol de Decisión} es un grafo dirigido donde cada nodo interno (un diamante en la representación visual) evalúa una condición binaria, y las ramas representan los resultados \texttt{Sí} o \texttt{No}, llevando finalmente a una hoja que dicta la acción a ejecutar. Están inspirados en los clasificadores CART (\textit{Classification and Regression Trees}) del aprendizaje automático supervisado.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  cond/.style={fill=parchment!60,draw=wood,minimum width=2.8cm,minimum height=0.7cm,font=\small\bfseries,align=center},
+  leaf/.style={fill=espeGreen!15,draw=espeGreen,minimum width=2.2cm,minimum height=0.6cm,font=\small\bfseries,align=center},
+  arr/.style={-{Latex[length=2mm]},line width=0.7pt,color=steel}
+]
+\node[cond,diamond,aspect=2] (r) {¿Salud $<$ 30\%?};
+\node[cond,diamond,aspect=2,below left=1.8cm and 1.8cm of r] (n1) {¿Munición $>$ 0?};
+\node[cond,diamond,aspect=2,below right=1.8cm and 1.8cm of r] (n2) {¿Cobertura cercana?};
+\node[leaf,rectangle,below left=1.5cm and 0.6cm of n1] (a1) {Atacar};
+\node[leaf,rectangle,below right=1.5cm and 0.6cm of n1] (a2) {Recargar};
+\node[leaf,rectangle,below left=1.5cm and 0.6cm of n2] (a3) {Cubrirse};
+\node[leaf,rectangle,below right=1.5cm and 0.6cm of n2] (a4) {Huir};
+
+\draw[arr] (r) -- node[left=2mm]{\tiny Sí} (n1);
+\draw[arr] (r) -- node[right=2mm]{\tiny No} (n2);
+\draw[arr] (n1) -- node[left=2mm]{\tiny Sí} (a1);
+\draw[arr] (n1) -- node[right=2mm]{\tiny No} (a2);
+\draw[arr] (n2) -- node[left=2mm]{\tiny Sí} (a3);
+\draw[arr] (n2) -- node[right=2mm]{\tiny No} (a4);
+\end{tikzpicture}
+\caption{Árbol de Decisión para un NPC en combate. Cada nodo interno evalúa una condición binaria y las hojas determinan la acción.}
+\end{figure}
+
+\subsubsection{Ventajas y limitaciones}
+
+Los DT son extremadamente rápidos a nivel de CPU y fáciles de entender. Sin embargo, son unidireccionales y sin memoria: no pueden \textit{arrepentirse} de una decisión hasta que el ciclo de toma de decisiones vuelva a pasar por el nodo raíz. En la práctica, se combinan con FSM: el DT decide \textit{qué} hacer (estrategia) y la FSM ejecuta \textit{cómo} hacerlo (animaciones).
+
+\subsection{Sistemas Basados en Reglas}
+
+\subsubsection{Definición y fundamentos}
+
+Los \textbf{Sistemas Basados en Reglas} utilizan una base de conocimiento compuesta por hechos y reglas de producción del tipo \texttt{SI condición ENTONCES acción}. Emplean encadenamiento hacia adelante (\textit{forward chaining}): parten de los hechos actuales y aplican reglas hasta alcanzar una conclusión o acción.
+
+El problema del conflicto —cuando múltiples reglas se disparan simultáneamente— se resuelve mediante:
+
+\begin{itemize}[nosep]
+  \item \textbf{Prioridad estática}: cada regla tiene un número asignado por el diseñador
+  \item \textbf{Recencia}: los hechos más nuevos tienen prioridad
+  \item \textbf{Especificidad}: la regla con más condiciones gana
+\end{itemize}
+
+\subsubsection{Aplicación en videojuegos}
+
+El uso más conocido es el \textbf{Sistema Director} de \textit{Left 4 Dead}, que utiliza reglas para puntuar el \textit{estrés} de los jugadores. Si \texttt{TiempoSinInfectados $>$ 5s} Y \texttt{SaludPromedio $>$ 80}, se dispara una oleada masiva. En \textit{Halo}, el sistema \textbf{Encounter Logic} funciona de manera similar: inyecta variables globales que alteran las prioridades de todos los NPCs en el escenario actual.
+
+\subsection{GOAP (Goal-Oriented Action Planning)}
+
+\subsubsection{Definición y fundamentos}
+
+\textbf{GOAP} es un sistema donde el programador no define el comportamiento explícito del agente, sino que le proporciona:
+
+\begin{itemize}[nosep]
+  \item Un conjunto de \textbf{metas} (estados deseados del mundo, ej: \texttt{enemigoMuerto = true})
+  \item Un conjunto de \textbf{acciones}, cada una con precondiciones, efectos y un coste numérico
+\end{itemize}
+
+El agente utiliza el algoritmo A* para buscar en el \textit{grafo de acciones} la secuencia de menor coste que transforme el estado actual en el estado meta. Este enfoque fue popularizado por \textit{F.E.A.R.}, donde los soldados enemigos descubren tácticas emergentes como flanquear sin que el diseñador las haya programado explícitamente.
+
+\subsubsection{Limitaciones}
+
+El principal desafío es el alto coste computacional de la re-planificación constante. En \textit{F.E.A.R.}, el plan se recalcula cada 0.5 segundos. Si el jugador se mueve mucho, el plan cambia constantemente y el agente parece indeciso. La solución es un umbral de tolerancia: solo se replanifica si el nuevo plan es al menos un 20\% mejor que el actual, evitando el \textit{thrashing}.
+
+\subsection{Lógica Difusa (Fuzzy Logic)}
+
+\subsubsection{Definición y fundamentos}
+
+A diferencia de la lógica booleana tradicional (valores 0 o 1), la \textbf{Lógica Difusa} trabaja con grados de verdad continuos en el intervalo \([0, 1]\), permitiendo definir variables lingüísticas como \textit{un poco lejos}, \textit{bastante herido} o \textit{muy cerca}. Opera en tres etapas:
+
+\begin{enumerate}[nosep]
+  \item \textbf{Fuzzificación}: convertir valores numéricos (ej: distancia = 15 m) en grados de pertenencia a conjuntos difusos (\textit{Cerca}, \textit{Medio}, \textit{Lejos})
+  \item \textbf{Inferencia}: aplicar reglas del tipo \texttt{SI Distancia es Cerca Y Salud es Baja ENTONCES IntensidadDeAtaque es Alta}
+  \item \textbf{Defuzzificación}: convertir el resultado difuso en un valor numérico de salida, usualmente mediante el cálculo del centroide
+\end{enumerate}
+
+\subsubsection{Aplicación}
+
+No se usa como técnica independiente, sino como módulo interno de Sistemas de Utilidad para modular curvas de puntuación. Por ejemplo, en \textit{Los Sims}, el hambre no es un booleano sino un valor difuso que sube suavemente, haciendo que la transición a \textit{Buscar Comida} sea orgánica.
+
+\subsection{Sistemas de Utilidad (Utility AI)}
+
+\subsubsection{Definición y fundamentos}
+
+Un \textbf{Sistema de Utilidad} asigna una puntuación numérica a cada acción disponible basándose en el contexto actual, y selecciona la acción con la puntuación más alta. Matemáticamente, cada acción \(a\) tiene una función de utilidad \(U(a) = f(\text{contexto})\), y la acción seleccionada es \(\text{argmax}_{a \in A} U(a)\).
+
+El verdadero arte está en el diseño de las \textbf{curvas de respuesta}. Se utilizan funciones sigmoides, logarítmicas o exponenciales para evitar que una acción domine siempre. Por ejemplo:
+
+\[
+U(\text{Atacar}) = \frac{1}{1 + e^{-k(VidaEnemigo - 50)}}
+\]
+
+donde \(k\) controla la pendiente de la curva: un valor alto hace al agente más agresivo, uno más bajo más cauteloso.
+
+\subsubsection{Aplicación en Halo}
+
+Los \textbf{Elites} incorporan un sistema de utilidad implícito para priorizar la supervivencia. La función de utilidad de \textit{Buscar Cobertura} se incrementa drásticamente cuando \texttt{shieldHealth} cae por debajo del 20\%, superando la utilidad de \textit{Atacar} incluso cuando el jugador está en rango.
+
+\subsection{Aprendizaje por Refuerzo (Reinforcement Learning)}
+
+\subsubsection{Definición y fundamentos}
+
+El \textbf{Aprendizaje por Refuerzo} es una rama del Machine Learning donde un agente aprende una política óptima \(\pi^*\) mediante interacción con el entorno, maximizando una señal de recompensa acumulada. Se formaliza como un Proceso de Decisión de Markov (MDP) \((S, A, P, R, \gamma)\):
+
+\begin{itemize}[nosep]
+  \item \(S\): conjunto de estados del entorno
+  \item \(A\): conjunto de acciones disponibles
+  \item \(P(s' \mid s, a)\): probabilidad de transición al estado \(s'\) desde \(s\) con acción \(a\)
+  \item \(R(s, a)\): recompensa inmediata
+  \item \(\gamma \in [0, 1)\): factor de descuento para recompensas futuras
+\end{itemize}
+
+\subsubsection{Realidad en la industria}
+
+En la industria del videojuego, el RL no se utiliza en tiempo real durante la ejecución del juego. Se emplea \textit{offline} para entrenar bots que luego se exportan como redes neuronales de inferencia fija. Ejemplos incluyen \textit{AlphaStar} (StarCraft II) y \textit{OpenAI Five} (Dota 2). El principal desafío es el \textit{reward shaping}: el agente tiende a explotar bugs del entorno para maximizar recompensa, por lo que las funciones de recompensa deben alinearse cuidadosamente con la diversión del jugador.
+
+\section{Comprensión Conceptual: Análisis Comparativo}
+
+\subsection{Guía de selección de técnica}
+
+\begin{table}[H]
+\centering
+\caption{Recomendación de técnica según el escenario de uso}
+\small
+\begin{tabularx}{\textwidth}{L{3.8cm}Y}
+\toprule
+\textbf{Escenario} & \textbf{Técnica recomendada} \\
+\midrule
+Enemigo básico de tutorial (comportamiento predecible) & FSM \\
+NPC con rutinas complejas y escalables (médico, comerciante) & Behavior Tree \\
+IA que se adapta a cientos de variables sin planificar (estrategia 4X) & Utility AI \\
+IA que \textit{inventa} tácticas sorprendentes (FPS táctico) & GOAP \\
+Suavizar curvas de detección o velocidad de giro & Fuzzy Logic (como módulo de Utility) \\
+Oponente imbatible para pruebas de estrés (entrenamiento offline) & Reinforcement Learning \\
+Director de flujo global de partida (ej: Left 4 Dead) & Rule-Based Systems \\
+Clasificación rápida de información en tiempo real & Decision Trees \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Análisis comparativo transversal}
+
+La siguiente tabla sitúa cada técnica en dos ejes fundamentales: \textbf{Reactividad} (capacidad de responder al instante) y \textbf{Planificación} (capacidad de pensar a futuro), junto con su predictibilidad y coste computacional.
+
+\begin{table}[H]
+\centering
+\caption{Comparativa de técnicas en reactividad, planificación, predictibilidad y coste}
+\small
+\begin{tabularx}{\textwidth}{L{1.8cm}L{1.8cm}L{1.8cm}L{1.8cm}L{2cm}}
+\toprule
+\textbf{Técnica} & \textbf{Reactividad} & \textbf{Planificación} & \textbf{Predictibilidad} & \textbf{Coste CPU} \\
+\midrule
+FSM & Alta & Nula & Muy Alta & Bajísimo \\
+Behavior Tree & Muy Alta & Baja & Alta & Bajo-Medio \\
+Decision Tree & Alta & Nula & Muy Alta & Bajísimo \\
+Rule-Based & Media & Media & Media & Medio \\
+GOAP & Baja & Muy Alta & Baja & Muy Alto \\
+Utility AI & Media-Alta & Baja & Media-Baja & Medio-Alto \\
+Fuzzy Logic & Alta & Nula & Media & Bajo-Medio \\
+RL & Baja & Alta & Muy Baja & Alto (GPU) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Arquitecturas Híbridas}
+
+Ningún juego AAA utiliza una sola técnica de forma aislada. La complementación real ocurre en tres capas bien diferenciadas, donde cada capa opera a una frecuencia distinta y se encarga de un nivel de abstracción diferente:
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  layer/.style={draw,rounded corners=4pt,minimum width=14cm,minimum height=1.4cm,align=center,font=\small\bfseries},
+  arr/.style={-{Latex[length=3mm]},line width=1.2pt,color=steel}
+]
+\node[layer,fill=accentRed!20,draw=accentRed] (strategic) at (0,2.8) {
+  \textbf{Capa Estratégica} \quad (Utility AI / GOAP)\\[3pt]
+  \footnotesize Decide \textit{qué} hacer y \textit{por qué}. Frecuencia de evaluación: cada 1--2 segundos.
+};
+\node[layer,fill=deepTeal!20,draw=deepTeal] (tactical) at (0,0) {
+  \textbf{Capa Táctica} \quad (Behavior Tree)\\[3pt]
+  \footnotesize Decide \textit{cómo} hacerlo y \textit{cuándo}. Frecuencia de evaluación: cada frame.
+};
+\node[layer,fill=espeGreen!20,draw=espeGreen] (animation) at (0,-2.8) {
+  \textbf{Capa de Animación / Física} \quad (FSM / HFSM)\\[3pt]
+  \footnotesize Decide el gesto fino. Controla transiciones de animación y respuestas físicas.
+};
+\draw[arr] (strategic.south) -- (tactical.north);
+\draw[arr] (tactical.south) -- (animation.north);
+
+\node[font=\footnotesize,color=steel,align=center,below=0.5cm of animation] {
+  Ejemplo (\textit{The Last of Us}): Utility elige objetivo $\to$ BT ejecuta flanqueo $\to$ HFSM mezcla animaciones
+};
+\end{tikzpicture}
+\caption{Arquitectura híbrida en tres capas utilizada en juegos AAA. Cada capa opera a una frecuencia distinta y resuelve un nivel de abstracción diferente.}
+\end{figure}
+
+\section{Aplicación en Halo: Identificación de Técnicas por Personaje}
+
+En \textit{Halo}, la IA de los NPCs utiliza principalmente \textbf{Árboles de Comportamiento} como núcleo de toma de decisiones, complementados con FSM para la capa de animación y sistemas basados en reglas para la lógica de escuadrón. La siguiente tabla identifica las técnicas aplicadas a cada personaje y las relaciona con acciones concretas observables durante el juego.
+
+\begin{table}[H]
+\centering
+\caption{Técnicas de toma de decisiones identificadas en personajes de Halo}
+\small
+\begin{tabularx}{\textwidth}{L{2.2cm}L{2.8cm}Y}
+\toprule
+\textbf{Personaje} & \textbf{Técnica principal} & \textbf{Acción concreta en el juego} \\
+\midrule
+Grunt & Behavior Tree + FSM & Evalúa liderazgo del Elite; al morir el líder, activa rama de pánico: suelta arma, huye con animación torpe. \\
+Elite & Behavior Tree + Utility & Evalúa salud de escudo; si $<$ 20\%, prioriza cobertura sobre ataque; coordina escuadrón. \\
+Jackal & Behavior Tree & Usa cobertura; dispara a distancia; se retira si el jugador se acerca demasiado. \\
+Hunter & FSM + Behavior Tree & Patrulla en pareja; dispara ráfagas; carga si el jugador está en rango; expone punto débil dorsal. \\
+Flood (infección) & FSM pura & Estados: merodear, detectar, cargar, atacar cuerpo a cuerpo; comportamiento de enjambre sin planificación. \\
+Covenant (escuadrón) & Rule-Based + Blackboard & Comparten variables globales como refuerzos solicitados, estado del líder y prioridad de objetivo. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Análisis detallado: Grunts y Elites}
+
+\subsubsection{Grunt (Infantería básica)}
+
+El árbol de comportamiento del Grunt evalúa en su nodo Selector de máxima prioridad la variable \texttt{isEliteAlive}. Cuando el Elite líder muere, el cortocircuito del selector detiene la evaluación de las ramas de menor prioridad (\textit{Atacar}, \textit{Buscar granadas}) y activa inmediatamente la rama de \textit{Pánico}. Esta rama es una Secuencia que ejecuta en orden:
+
+\begin{enumerate}[nosep]
+  \item Soltar el arma principal (cambia el esqueleto de animación)
+  \item Activar animación de \textit{huida torpe} (brazos en alto, carrera descoordinada)
+  \item Reproducir línea de audio de advertencia (\textit{¡El jefe está muerto, corran!})
+  \item Calcular vector de huida aleatorio opuesto a la última posición conocida del jugador
+\end{enumerate}
+
+\subsubsection{Elite (Rango superior)}
+
+El Elite incorpora un sistema de utilidad implícito en la evaluación de sus selectores. Cuando \texttt{shieldHealth} cae por debajo del 20\%, la utilidad de la acción \textit{Buscar Cobertura} supera a la de \textit{Atacar}. La rama seleccionada ejecuta:
+
+\begin{enumerate}[nosep]
+  \item Rodaje lateral con animación cinematográfica (\texttt{Dodge\_Roll\_Right})
+  \item Movimiento al objeto etiquetado como \textit{Cobertura} más cercano mediante navegación NavMesh
+  \item Inicio de regeneración activa del escudo (el jugador ve cómo el indicador púrpura se recupera)
+  \item Comunicación al escuadrón: {\small\texttt{BroadcastSignal("Suppressing\-Fire!")}} para que los Grunts cubran su retirada
+\end{enumerate}
+
+\section{Análisis de Funcionamiento: Flujo de Decisión en Halo}
+
+La IA de \textit{Halo} ejecuta un ciclo continuo de cinco fases, evaluado entre 30 y 60 veces por segundo. Este flujo se implementa mediante Árboles de Comportamiento que gestionan desde la percepción del entorno hasta la actualización del estado interno del NPC.
+
+\subsection{Diagrama General del Flujo de Decisión}
+
+\begin{figure}[H]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+  phase/.style={draw,rounded corners=5pt,minimum width=3.2cm,minimum height=1.3cm,align=center,font=\small\bfseries},
+  arr/.style={-{Latex[length=3mm]},line width=1.2pt,color=steel},
+  lbl/.style={font=\footnotesize,color=steel,align=center}
+]
+\node[phase,fill=accentRed!20,draw=accentRed] (perception) {1. Percepción\\\small Captura de datos};
+\node[phase,fill=softGold!30,draw=softGold,right=1.8cm of perception] (evaluation) {2. Evaluación\\\small Procesamiento lógico};
+\node[phase,fill=deepTeal!20,draw=deepTeal,right=1.8cm of evaluation] (selection) {3. Selección\\\small Determinación};
+\node[phase,fill=espeGreen!20,draw=espeGreen,right=1.8cm of selection] (execution) {4. Ejecución\\\small Llamada a subsistemas};
+\node[phase,fill=parchment!50,draw=wood,below=1.8cm of execution] (statechange) {5. Cambio de Estado\\\small Actualización de variables};
+
+\draw[arr] (perception) -- node[lbl,above]{Datos crudos} (evaluation);
+\draw[arr] (evaluation) -- node[lbl,above]{Condición verdadera} (selection);
+\draw[arr] (selection) -- node[lbl,above]{Rama activada} (execution);
+\draw[arr] (execution) -- node[lbl,right]{Comandos ejecutados} (statechange);
+\draw[arr] (statechange.west) -- ++(-2.8,0) |- node[lbl,left,align=right]{Nuevo estado\\ interno} (perception.south);
+
+\draw[dashed,rounded corners=4pt,color=deepTeal,line width=0.7pt]
+  ($(perception.north west)+(-0.4,0.4)$) rectangle ($(selection.south east)+(0.4,-0.3)$);
+\node[font=\small\bfseries,color=deepTeal,above] at ($(perception.north west)!(selection.north)!(perception.north west)+(0,0.6)$) {Árbol de Comportamiento};
+
+\draw[dashed,rounded corners=4pt,color=deepTeal,line width=0.7pt]
+  ($(execution.north west)+(-0.3,0.3)$) rectangle ($(execution.south east)+(0.3,-0.3)$);
+\node[font=\small\bfseries,color=deepTeal,above] at ([yshift=0.5cm]execution.north) {Subsistemas del Motor};
+\end{tikzpicture}
+}
+\caption{Ciclo completo de decisión de la IA en Halo. Las fases 1--3 ocurren en el Árbol de Comportamiento, la fase 4 en los subsistemas del motor y la fase 5 actualiza el Blackboard.}
+\end{figure}
+
+\subsection{Fase 1: Percepción}
+
+El NPC no \textit{ve} como un ser humano, sino que el motor del juego alimenta al nodo raíz del árbol con datos crudos obtenidos mediante sensores virtuales:
+
+\begin{itemize}[nosep]
+  \item \textbf{Raycasts (Visión)}: conos de visión con detección de obstáculos. Cada NPC tiene un ángulo y alcance que determina su campo visual
+  \item \textbf{Triggers de audio (Oído)}: esferas de detección concéntricas que reaccionan a disparos, explosiones o pasos
+  \item \textbf{Variables globales (Tacto/Conocimiento)}: datos compartidos en el Blackboard como salud del líder, estado del escudo, posición del jugador o nivel de alerta del escuadrón
+\end{itemize}
+
+\textbf{Ejemplo -- Grunt:} El sistema monitoriza \texttt{isEliteAlive}. Cuando el Elite muere, el sensor de \textit{conocimiento de escuadrón} actualiza la variable a \texttt{false}. Simultáneamente, el sistema de audición confirma el origen del disparo que mató al líder, actualizando \texttt{lastKnownPlayerPosition} con la ubicación exacta.
+
+\textbf{Ejemplo -- Elite:} El sistema monitoriza \texttt{shieldHealth}. Al caer al 15\%, el \texttt{ThreatAnalyzer} escanea el entorno en busca de objetos con la etiqueta \textit{Cover} dentro de un radio de 20 metros, utilizando el sistema de navegación (\textit{NavMesh}) para validar que la cobertura sea alcanzable.
+
+\subsection{Fase 2: Evaluación de Condiciones}
+
+La información percibida fluye por la jerarquía del árbol de comportamiento. Los nodos de control evalúan las variables de arriba hacia abajo y de izquierda a derecha, siguiendo el principio de \textbf{cortocircuito}: en un Selector, si la primera condición es verdadera, se ignoran las condiciones restantes de esa rama.
+
+\textbf{Ejemplo -- Grunt:}
+\begin{itemize}[nosep]
+  \item \textbf{Condición A (alta prioridad):} \textit{¿Está vivo mi líder?} $\to$ \texttt{Falso}
+  \item \textbf{Resultado:} El Selector cortocircuita y detiene la evaluación de las ramas \textit{Atacar} y \textit{Buscar granadas}, activando inmediatamente la rama de \textit{Pánico}
+\end{itemize}
+
+\textbf{Ejemplo -- Elite:}
+\begin{itemize}[nosep]
+  \item \textbf{Condición A (supervivencia):} \textit{¿Escudo $<$ 20\%?} $\to$ \texttt{Verdadero}
+  \item \textbf{Condición B (táctica):} \textit{¿Cobertura disponible en radio de acción?} $\to$ \texttt{Verdadero}
+  \item \textbf{Resultado:} El árbol selecciona la rama de \textit{Búsqueda de Cobertura}, descartando acciones ofensivas como \textit{Cargar contra el jugador} o \textit{Lanzar granada}
+\end{itemize}
+
+\subsection{Fase 3: Selección de Acción}
+
+Una vez que una condición se evalúa como verdadera, el árbol desciende hacia los nodos hoja que contienen las acciones concretas. Si la rama seleccionada es una Secuencia, las acciones deben ejecutarse en orden estricto para que la reacción sea creíble.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  snode/.style={draw,rounded corners=4pt,minimum width=3.2cm,minimum height=0.8cm,align=center,font=\small\bfseries},
+  leaf/.style={draw,rounded corners=3pt,minimum width=5cm,minimum height=0.6cm,align=center,font=\footnotesize},
+  arr/.style={-{Latex[length=2.5mm]},line width=0.8pt,color=steel}
+]
+\node[snode,fill=softGold!30,draw=softGold] (root) at (3.5,5.5) {Selector Raíz};
+\node[snode,fill=accentRed!20,draw=accentRed] (panic) at (3.5,4.2) {Rama: PÁNICO};
+\node[snode,fill=deepTeal!20,draw=deepTeal] (seq) at (3.5,2.9) {Secuencia};
+
+\node[leaf,fill=espeGreen!15,draw=espeGreen] (a1) at (0,1.3) {1. Soltar arma principal};
+\node[leaf,fill=espeGreen!15,draw=espeGreen] (a2) at (3.5,1.3) {2. Activar animación de huida torpe};
+\node[leaf,fill=espeGreen!15,draw=espeGreen] (a3) at (7,1.3) {3. Reproducir audio de advertencia};
+\node[leaf,fill=espeGreen!15,draw=espeGreen] (a4) at (3.5,0) {4. Calcular vector de huida (opuesto al jugador)};
+
+\draw[arr] (root) -- (panic);
+\draw[arr] (panic) -- (seq);
+\draw[arr] (seq) -- (a1);
+\draw[arr] (seq) -- (a2);
+\draw[arr] (seq) -- (a3);
+\draw[-{Latex[length=2.5mm]},line width=0.8pt,color=steel,dashed] (a3.south) -- ++(0,-0.3) -| (a4.east);
+
+\node[font=\footnotesize,color=steel,below=0.3cm of a4] {
+  La Secuencia requiere que todas las acciones se ejecuten en orden para que la reacción sea creíble
+};
+\end{tikzpicture}
+\caption{Rama de Pánico del Grunt: secuencia de cuatro acciones en orden estricto. Si alguna falla, la secuencia completa devuelve \texttt{Fallo}.}
+\end{figure}
+
+\subsection{Fase 4: Ejecución}
+
+El árbol de comportamiento no ejecuta las acciones por sí mismo; envía comandos a los subsistemas del motor gráfico, de audio y de navegación para materializar la decisión en pantalla. La ejecución es el momento en que la IA \textit{toca} el mundo real del juego.
+
+\begin{table}[H]
+\centering
+\caption{Comandos enviados a los subsistemas durante la ejecución de las fases de Pánico (Grunt) y Cobertura (Elite)}
+\scriptsize
+\begin{tabularx}{\textwidth}{L{1.2cm}L{1.4cm}L{2.8cm}Y}
+\toprule
+\textbf{Personaje} & \textbf{Subsistema} & \textbf{Comando} & \textbf{Acción concreta en pantalla} \\
+\midrule
+Grunt & Animación & \footnotesize\texttt{Panic\_Run} & Suelta el arma, levanta brazos, corre descoordinado \\
+Grunt & Audio & \footnotesize\texttt{LeaderDown} & ``¡El jefe está muerto, corran!'' \\
+Grunt & Navegación & \footnotesize\texttt{FleeDestination} & Traza ruta de huida aleatoria \\
+\midrule
+Elite & Animación & \footnotesize\texttt{DodgeRoll\_R} & Rodaje lateral para esquivar disparos \\
+Elite & Navegación & \footnotesize\texttt{CoverMove} & Se mueve a la cobertura más cercana \\
+Elite & Escudo & \footnotesize\texttt{ShieldRegenOn} & Inicia recarga activa del escudo \\
+Elite & Escuadrón & \footnotesize\texttt{SuppressFire} & Grunts disparan para cubrir su retirada \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Fase 5: Cambio de Estado}
+
+La ejecución finaliza alterando el estado interno del NPC y su Blackboard. Este nuevo estado determinará cómo se comportará en el siguiente ciclo de evaluación, alterando sus prioridades futuras y permitiendo que la IA \textit{recuerde} lo que acaba de hacer.
+
+\textbf{Ejemplo -- Grunt (de combatiente a fugitivo):}
+\begin{itemize}[nosep]
+  \item \textbf{Estado interno:} \texttt{COMBATE\_TÁCTICO $\to$ HUIDA}
+  \item \textbf{Blackboard:} \texttt{isPanicActive = true}, \texttt{panicTimer = 5.0s}, \texttt{ignoreCombatOrders = true}
+  \item \textbf{Efecto:} En los siguientes ticks, el Grunt ignora eventos como \textit{jugador a la vista}. Su árbol evita todas las ramas de ataque y solo reevalúa la rama de huida hasta que el temporizador expire o esté lejos del peligro
+\end{itemize}
+
+\textbf{Ejemplo -- Elite (de ofensivo a defensivo):}
+\begin{itemize}[nosep]
+  \item \textbf{Estado interno:} \texttt{ATAQUE\_ACTIVO $\to$ COBERTURA\_DEFENSIVA}
+  \item \textbf{Blackboard:} \texttt{shieldRegenerating = true}, \texttt{holdPositionUntilShieldFull = true}
+  \item \textbf{Efecto:} Mientras está en \texttt{COBERTURA\_DEFENSIVA}, el árbol no evalúa las ramas de \textit{Carga Berserker} ni \textit{Flanqueo}. Solo monitorea el nodo de \textit{Espera} que observa la variable \texttt{shieldHealth}. Al llegar al 100\%, el estado vuelve a \texttt{ATAQUE\_ACTIVO}
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  node distance=3.2cm,
+  box/.style={draw,rounded corners=4pt,minimum width=3.5cm,minimum height=0.9cm,align=center,font=\small\bfseries},
+  arr/.style={-{Latex[length=2.5mm]},line width=0.8pt,color=steel}
+]
+\node[box,fill=accentRed!20,draw=accentRed] (gcombat) {COMBATE\_TÁCTICO};
+\node[box,fill=softGold!30,draw=softGold,right=of gcombat] (ghuida) {HUIDA};
+\node[box,fill=accentRed!20,draw=accentRed,below=of gcombat] (eataque) {ATAQUE\_ACTIVO};
+\node[box,fill=softGold!30,draw=softGold,right=of eataque] (ecobertura) {COBERTURA\_DEFENSIVA};
+
+\node[above=0.3cm of gcombat,font=\small\bfseries,color=deepTeal] (l1) {Grunt};
+\node[above=0.3cm of eataque,font=\small\bfseries,color=deepTeal] (l2) {Elite};
+
+\draw[arr] (gcombat) -- node[above,font=\footnotesize]{Elite muere} (ghuida);
+\draw[arr] (ghuida) to[bend left=35] node[below,font=\footnotesize]{Timer expira} (gcombat);
+\draw[arr] (eataque) -- node[above,font=\footnotesize]{Escudo $<$ 20\%} (ecobertura);
+\draw[arr] (ecobertura) to[bend left=35] node[below,font=\footnotesize]{Escudo 100\%} (eataque);
+\end{tikzpicture}
+\caption{Transiciones de estado interno para Grunt y Elite en Halo. Cada transición modifica el Blackboard y altera las prioridades del árbol en el siguiente ciclo.}
+\end{figure}
+
+\section{Conclusiones}
+
+La investigación realizada demuestra que la IA de \textit{Halo} implementa un sistema híbrido de toma de decisiones que combina múltiples técnicas de forma jerárquica y complementaria. El núcleo del sistema son los \textbf{Árboles de Comportamiento}, que proporcionan la estructura modular y escalable necesaria para gestionar la complejidad de los distintos NPCs. Esta arquitectura se complementa con:
+
+\begin{itemize}[nosep]
+  \item \textbf{FSM} para la capa de animación y para personajes simples como los Flood
+  \item \textbf{Sistemas de Utilidad} implícitos en los selectores de los Elites para priorizar supervivencia sobre ataque
+  \item \textbf{Sistemas Basados en Reglas} en la lógica de escuadrón y en el sistema global de \textit{Encounter Logic}
+\end{itemize}
+
+El flujo de decisión en cinco fases (percepción, evaluación, selección, ejecución y cambio de estado) permite que cada NPC reaccione de forma creíble y contextual:
+
+\begin{itemize}[nosep]
+  \item Los \textbf{Grunts} reaccionan al caos y al miedo de forma instantánea mediante cortocircuito en selectores, demostrando cómo un diseño simple puede generar comportamientos convincentes
+  \item Los \textbf{Elites} toman decisiones tácticas basadas en su supervivencia, priorizando cobertura sobre ataque y coordinando al escuadrón mediante comunicación implícita
+  \item El sistema global de \textbf{Encounter Logic} inyecta variables que alteran el flujo de todos los NPCs simultáneamente, adaptando la dificultad y el ritmo del combate
+\end{itemize}
+
+El resultado no es una IA que simplemente \textit{gana}, sino una que mantiene la ilusión de vida y la diversión táctica en cada combate. La comprensión de estas técnicas y su aplicación práctica en un videojuego comercial permite apreciar cómo la arquitectura de IA debe balancear cuidadosamente reactividad, planificación y coste computacional. Como regla general: cuanto más complejo y escalable deba ser el comportamiento, más arriba en la cadena de técnicas (FSM $\to$ BT $\to$ GOAP/Utility) debe situarse la implementación, pero siempre considerando que la técnica más sofisticada no siempre es la mejor para cada personaje.
+
+\end{document}
